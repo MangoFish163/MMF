@@ -1,0 +1,287 @@
+{% schema %}
+{
+  "name": "Coupon Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "coupon_header_title",
+      "label": "Coupon Title",
+      "default": "Coupon Center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "coupon",
+      "name": "Coupon Block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "coupon_title",
+          "label": "Coupon Title",
+          "default": "Special Offer"
+        },
+        {
+          "type": "textarea",
+          "id": "coupon_description",
+          "label": "Coupon Description",
+          "default": "Économisez sur votre achat"
+        },
+        {
+          "type": "text",
+          "id": "coupon_expiry",
+          "label": "Coupon Expiry",
+          "default": "Valable jusqu'au 30 avril 2025"
+        },
+        {
+          "type": "text",
+          "id": "coupon_code",
+          "label": "Coupon Code",
+          "default": "SAVE10"
+        },
+        {
+          "type": "text",
+          "id": "btn_text",
+          "label": "Button Text",
+          "default": "COPIER LE CODE"
+        },
+        {
+          "type": "color",
+          "id": "coupon_bg",
+          "label": "Background Color",
+          "default": "#ffe6b5"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Coupon Center",
+      "category": "Promotions",
+      "blocks": [
+        {
+          "type": "coupon"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+.coupon-section {
+  margin-bottom: 80px;
+}
+
+.coupon-section__header {
+  margin-bottom: 30px;
+}
+
+@media screen and (min-width: 769px) {
+  .coupon-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 24px;
+  }
+}
+
+}
+
+.coupon-container--list {
+  flex-direction: column;
+}
+
+.coupon-item {
+  min-width: 300px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  padding: 20px 30px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.coupon-container--list .coupon-item {
+  width: 100%;
+}
+
+.coupon-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.coupon-content {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(0,0,0,0.1);
+  flex: 1;
+  padding-right: 20px;
+  justify-content: space-between;
+}
+
+.coupon-header {
+  margin-bottom: 10px;
+}
+
+.coupon-title {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.coupon-description {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.coupon-expiry {
+  margin-top: 4px;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.coupon-action {
+  padding: 0 0 0 20px;
+  display: flex;
+  align-items: center;
+}
+
+.coupon-button {
+  padding: 10px 16px;
+  background-color: transparent;
+  border: 1px solid currentColor;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+  text-align: center;
+}
+
+.coupon-button:hover {
+  background-color: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* Toast notification */
+.coupon-toast {
+  position: fixed;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  background-color: #333;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+  font-size: 14px;
+}
+
+
+.coupon-toast--visible {
+  opacity: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .coupon-container {
+    display: grid;
+    grid-template-columns: 1fr; /* 一行一列 */
+    grid-gap: 24px; /* 保持24px的间隙 */
+  }
+  
+  .coupon-item {
+    width: 100%;
+    min-width: 100%;
+    padding: 15px;
+  }
+  
+  .coupon-content {
+    border-right: none;
+    border-right: 1px solid rgba(0,0,0,0.1);
+    padding-right: 0;
+    padding-bottom: 15px;
+  }
+  
+  .coupon-action {
+    padding-left:15px ;
+  }
+  
+  .coupon-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+</style>
+
+<section class="coupon-section" id="coupon-section-{{ section.id }}">
+  <div class="page-width">
+    <div class="coupon-section__header">
+      <h2>{{ section.settings.coupon_header_title }}</h2>
+    </div>
+    
+    <div class="coupon-container">
+      {% for block in section.blocks %}
+        {% if block.type == 'coupon' %}
+          <div class="coupon-item" 
+               style="background-color: {{ block.settings.coupon_bg }};" 
+               {{ block.shopify_attributes }}>
+            <div class="coupon-content">
+              <div class="coupon-header">
+                <span class="coupon-title">{{ block.settings.coupon_title }}</span>
+                <span class="coupon-description">{{ block.settings.coupon_description }}</span>
+              </div>
+              {% if block.settings.coupon_expiry != blank %}
+                <div class="coupon-expiry">
+                  <span>{{ block.settings.coupon_expiry }}</span>
+                </div>
+              {% endif %}
+            </div>
+            <div class="coupon-action">
+              {% if block.settings.btn_text != blank and block.settings.coupon_code != blank %}
+                <button class="coupon-button" 
+                        data-code="{{ block.settings.coupon_code }}"
+                        aria-label="Copy coupon code {{ block.settings.coupon_code }}">
+                  {{ block.settings.btn_text }}
+                </button>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  <div class="coupon-toast" id="coupon-toast">Coupon code copied to clipboard!</div>
+</section>
+
+<script>
+  (function() {
+    // Get all coupon buttons
+    const couponButtons = document.querySelectorAll('#coupon-section-{{ section.id }} .coupon-button');
+    const toast = document.getElementById('coupon-toast');
+    
+    // Add click event to each button
+    couponButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const code = this.dataset.code;
+        
+        // Copy to clipboard
+        navigator.clipboard.writeText(code).then(() => {
+          // Show success message
+          toast.textContent = 'Coupon code copied: ' + code;
+          toast.classList.add('coupon-toast--visible');
+          
+          // Hide toast after 3 seconds
+          setTimeout(() => {
+            toast.classList.remove('coupon-toast--visible');
+          }, 3000);
+        }).catch(err => {
+          console.error('Could not copy text: ', err);
+        });
+      });
+    });
+  })();
+</script>

@@ -1,0 +1,26 @@
+.banner-link {
+  display: flex;
+  text-align: center;
+}
+
+@media only screen and (max-width: 1024px) {
+  .banner-container.content-align-mobile-center {
+    text-align: center;
+  }
+
+  .banner-container.content-align-mobile-left {
+    text-align: left;
+  }
+
+  .banner-container.content-align-mobile-right {
+    text-align: right;
+  }
+  .banner-container .desktop-show {
+    display: none;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .banner-container .mobile-show {
+    display: none;
+  }
+}

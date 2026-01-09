@@ -1,0 +1,300 @@
+{% schema %}
+{
+  "name": "Payment and Services",
+  "settings": [
+    {
+      "type": "text",
+      "id": "payment_title",
+      "label": "Payment Title",
+      "default": "Modes de paiement acceptés"
+    },
+    {
+      "type": "text",
+      "id": "service_title",
+      "label": "Service Title",
+      "default": "100% de satisfaction garantie"
+    },
+    {
+      "type": "textarea",
+      "id": "service_text",
+      "label": "Service Text",
+      "default": "CASETiFY offre une garantie \"Retour ou échange sous 10 jours\"<br>et une garantie produit de 6 mois pour les produits sélectionnés achetés. <br>Contacte-nous ou En savoir plus."
+    },
+    {
+      "type": "image_picker",
+      "id": "service_icon",
+      "label": "Service Icon",
+      "info": "Upload an icon for the service section (recommended size: 36x36px)."
+    },
+    {
+      "type": "image_picker",
+      "id": "trustesSite_icon",
+      "label": "trustesSite Icon",
+    },
+  ],
+  "blocks": [
+    {
+      "type": "payment_method",
+      "name": "Payment Method",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "payment_image_1",
+          "label": "Payment Image 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "payment_image_2",
+          "label": "Payment Image 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "payment_image_3",
+          "label": "Payment Image 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "payment_image_4",
+          "label": "Payment Image 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "payment_image_5",
+          "label": "Payment Image 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "payment_image_6",
+          "label": "Payment Image 6"
+        },
+        {
+          "type": "image_picker",
+          "id": "payment_image_7",
+          "label": "Payment Image 7"
+        },
+        {
+          "type": "image_picker",
+          "id": "payment_image_8",
+          "label": "Payment Image 8"
+        },
+        {
+          "type": "image_picker",
+          "id": "payment_image_9",
+          "label": "Payment Image 9"
+        },
+        {
+          "type": "image_picker",
+          "id": "payment_image_10",
+          "label": "Payment Image 10"
+        },
+        {
+          "type": "image_picker",
+          "id": "payment_image_11",
+          "label": "Payment Image 11"
+        },
+        {
+          "type": "image_picker",
+          "id": "payment_image_12",
+          "label": "Payment Image 12"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Payment and Services",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .payment-and-services-box {
+    display: flex;
+    justify-content: center;
+    background: #fff;
+    padding: 40px 0;
+    font-weight: 800;
+    width: 100%;
+    border-top: 1px solid #8C8C8C90;
+  }
+  .payment-box {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 50%;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #8C8C8C90;
+    gap: 5px;
+    padding: 0 28px;
+    box-sizing: border-box;
+  }
+  .payment-box .pay-head-title {
+    font-size: 24px;
+  }
+  .payment-box .pay-items-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    /* width: 310px; */
+    padding: 5px 0;
+  }
+  .payment-box .pay-items-img img {
+    width: 48px;
+    height: 32px;
+    background: #FFFFFF;
+    border: 1px solid #F0F0F0;
+    border-radius: 10px;
+    margin: 4px 10px;
+  }
+@media (min-width: 1024px) { 
+  .payment-box .trusted {
+    padding-right: 25px;
+    position: relative;
+  }
+  .trusted::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 50%;  
+      height: 55px; 
+      width: 1px;
+      background-color: #8C8C8C90; 
+      transform: translateY(-50%); 
+  }
+    .payment-box .pay-items-img {
+    width: 310px;
+  }
+}
+
+  .payment-box .trusted img{
+    width: 140px;
+    display: block;
+  }
+  .services-box {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 50%;
+    /* justify-content: space-between; */
+    align-items: center;
+    /* border-left: 1px solid #8C8C8C90; */
+    gap: 24px;
+    padding: 0 28px;
+    box-sizing: border-box;
+  }
+  .services-box .ser-head-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  .services-box .ser-head-icon {
+    width: 36px;
+    height: 36px;
+  }
+  .services-box .ser-head-title {
+    font-size: 24px;
+  }
+  .services-box .ser-content-text {
+    font-size: 16px;
+    font-weight: 500 !important;
+    color: #8B8B8B;
+  }
+  .services-box .ser-content-container {
+    text-align: center;
+  }
+  .pay-list-img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .payment-and-services-box {
+      flex-direction: column;
+      padding: 20px 0;
+    }
+    .payment-box, .services-box {
+      flex: 1 1 100%;
+      border: none;
+      padding: 20px;
+    }
+    .payment-box {
+      border-bottom: 1px solid #8C8C8C90;
+    }
+    .payment-box .pay-head-title,
+    .services-box .ser-head-title {
+      font-size: 18px;
+    }
+    .payment-box .pay-items-img {
+      width: 100%;
+      justify-content: center;
+    }
+    .payment-box .pay-items-img img {
+      width: 40px;
+      height: 28px;
+      margin: 4px 8px;
+    }
+    .services-box {
+      gap: 15px;
+    }
+    .services-box .ser-head-container {
+      flex-direction: column;
+      text-align: center;
+    }
+    .services-box .ser-head-icon {
+      width: 32px;
+      height: 32px;
+    }
+    .services-box .ser-content-text {
+      font-size: 14px;
+    }
+    .pay-list-img{
+      flex-direction: column;
+      gap: 2px;
+    }
+  }
+</style>
+
+<div class="payment-and-services-box">
+  <div class="payment-box">
+    <div class="pay-head-container">
+      <span class="pay-head-title">{{ section.settings.payment_title }}</span>
+    </div>
+    <div class="pay-list-img">
+      <div class="trusted">
+        {% if section.settings.trustesSite_icon != blank %}
+          <img class="trustessite-icon" src="{{ section.settings.trustesSite_icon | img_url: '36x36' }}" alt="Service Icon">
+        {% endif %}
+      </div>
+      <div class="pay-items-img">
+        {% for block in section.blocks %}
+          {% if block.type == 'payment_method' %}
+            {% assign images = block.settings %}
+            {% for key in images %}
+              {% if key contains 'payment_image' and images[key] != blank %}
+                <img src="{{ images[key] | img_url: '48x32' }}" alt="Payment Method">
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="services-box">
+    <div class="ser-head-container">
+      {% if section.settings.service_icon != blank %}
+        <img class="ser-head-icon" src="{{ section.settings.service_icon | img_url: '36x36' }}" alt="Service Icon">
+      {% endif %}
+      <span class="ser-head-title">{{ section.settings.service_title }}</span>
+    </div>
+    <div class="ser-content-container">
+      <span class="ser-content-text">
+        {{ section.settings.service_text }}
+      </span>
+    </div>
+  </div>
+</div>

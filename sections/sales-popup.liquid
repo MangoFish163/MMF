@@ -1,0 +1,240 @@
+{% comment %} Shopify Sales Popup Section {% endcomment %}
+
+<style>
+  .sales-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    z-index: 9999;
+    max-width: 350px;
+    animation: fadeInUp 0.5s ease-out;
+    display: none;
+  }
+
+  .popup-content {
+    display: flex;
+    gap: 12px;
+    position: relative;
+  }
+
+  .popup-image img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .popup-info p {
+    margin: 0 0 5px 0;
+    line-height: 1.4;
+  }
+
+  .popup-info a {
+    color: #333;
+    text-decoration: underline !important;
+  }
+
+  .popup-close {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 22px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeOutDown {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(20px); }
+  }
+
+  .fade-out {
+    animation: fadeOutDown 0.5s ease-out;
+  }
+
+  @media (max-width: 768px) {
+    .sales-popup {
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      max-width: calc(100% - 20px);
+    }
+  }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+  const isMobile = window.innerWidth <= 768; 
+
+  if (isMobile) {
+    return; 
+  }
+
+  const CONFIG = {
+    minDelay: {{ section.settings.min_delay | default:15000 }},
+    maxDelay: {{ section.settings.max_delay | default:70000 }},
+    displayDuration: {{ section.settings.display_duration | default:6000 }},
+  };
+
+  let products = [];
+
+  function randomChoice(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+function fetchProducts() {
+  fetch('/products.json')
+    .then(res => res.json())
+    .then(data => {
+      products = data.products
+        .filter(p => p.published_at && p.images.length > 0)
+        .filter(p => !p.title.toLowerCase().includes("paris")) // <-- 过滤掉标题包含 "paris" 的商品
+        .map(p => ({
+          title: p.title,
+          image: p.images[0].src,
+          handle: p.handle
+        }));
+      schedulePopup();
+    });
+}
+
+
+  function createPopup(product) {
+    const popup = document.createElement("div");
+    popup.className = "sales-popup";
+    popup.innerHTML = `
+      <div class="popup-content">
+        <div class="popup-image">
+          <img src="${product.image}" alt="${product.title}" />
+        </div>
+        <div class="popup-info">
+          <p>Un client vient d'ajouter<br> <a href="/products/${product.handle}">${product.title}</a> à son panier</p>
+        </div>
+        <button class="popup-close">&times;</button>
+      </div>
+    `;
+    popup.querySelector(".popup-close").addEventListener("click", () => closePopup(popup));
+    return popup;
+  }
+
+  function showPopup(product) {
+    if (!product) return;
+    const popup = createPopup(product);
+    document.body.appendChild(popup);
+    popup.style.display = "block";
+
+    let closeTimeout = setTimeout(() => closePopup(popup), CONFIG.displayDuration);
+
+    popup.querySelector(".popup-content").addEventListener("mouseenter", () => {
+      clearTimeout(closeTimeout);
+    });
+
+    popup.querySelector(".popup-content").addEventListener("mouseleave", () => {
+      closeTimeout = setTimeout(() => closePopup(popup), CONFIG.displayDuration);
+    });
+  }
+
+  function closePopup(popup) {
+    popup.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+    popup.style.opacity = "0";
+    popup.style.transform = "translateY(20px)";
+
+    setTimeout(() => {
+      if (popup.parentNode) popup.parentNode.removeChild(popup);
+      setTimeout(schedulePopup, 500);
+    }, 500);
+  }
+
+
+  function schedulePopup() {
+    if (products.length === 0) {
+      return;
+    }
+    const delay = Math.random() * (CONFIG.maxDelay - CONFIG.minDelay) + CONFIG.minDelay;
+    setTimeout(() => showPopup(randomChoice(products)), delay);
+  }
+
+  function cartListener() {
+    const originalFetch = window.fetch;
+    window.fetch = function() {
+      return originalFetch.apply(this, arguments).then(async response => {
+        if (response.url.includes('/cart/add')) {
+        try {
+            const clone = response.clone();
+            const data = await clone.json();
+
+            const lastItem = data.items ? data.items[data.items.length - 1] : data;
+
+            const product = {
+            title: lastItem.title || "Produit",
+            image: (lastItem.image || (lastItem.featured_image && lastItem.featured_image.src)) || "",
+            handle: lastItem.handle || lastItem.url?.split("/products/")[1] || ""
+            };
+          {% comment %} if (product.title.toLowerCase().includes("paris")) return; {% endcomment %}
+            showPopup(product);
+        } catch(err) {
+            console.error(err);
+        }
+        }
+
+        return response;
+      });
+    };
+  }
+
+  fetchProducts();
+  cartListener();
+});
+
+
+</script>
+
+{% schema %}
+{
+  "name": "Sales Popup",
+  "settings": [
+    {
+      "type": "text",
+      "id": "popup_text",
+      "label": "弹窗文字",
+    },
+    {
+      "type": "number",
+      "id": "min_delay",
+      "label": "最小延迟 (ms)",
+      "default": 15000
+    },
+    {
+      "type": "number",
+      "id": "max_delay",
+      "label": "最大延迟 (ms)",
+      "default": 70000
+    },
+    {
+      "type": "number",
+      "id": "display_duration",
+      "label": "弹窗显示时长 (ms)",
+      "default": 6000
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sales Popup",
+      "category": "Popup"
+    }
+  ]
+}
+{% endschema %}

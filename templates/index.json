@@ -1,0 +1,108 @@
+{
+  "sections": {
+    "pagefly-home": {
+      "type": "pagefly-home",
+      "settings": {}
+    },
+    "17394368954583b98e": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_featured_carousel_TPjiEF": {
+          "type": "shopify://apps/judge-me-reviews/blocks/featured_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "maxwidth": 1600
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_featured_carousel_TPjiEF"
+      ],
+      "disabled": true,
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "testimonial_carousel_y3mRVV": {
+      "type": "testimonial-carousel",
+      "blocks": {
+        "testimonial_Qp4MEE": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Maillot + flocage = 🔥🔥🔥",
+            "quote": "<p>J’ai pris Mbappé + France, c’est trop stylé. J’le lave depuis 2 semaines, le flocage bouge pas. C’est carré 👌</p>",
+            "author": "Caiden Spreiter",
+            "stars": 5,
+            "time_ago": "",
+            "avatar_color": "#6d710e",
+            "avatar_image": "shopify://shop_images/73x73_2.png"
+          }
+        },
+        "testimonial_L4DwUK": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Trop content, c'est grave une masterclass",
+            "quote": "<p>Franchement j’pensais pas que ça allait arriver aussi vite. Le maillot est lourd, bien taillé. C’est comme ceux des joueurs. Continuez comme ça l’équipe !</p>",
+            "author": "nik maravic",
+            "stars": 5,
+            "time_ago": "",
+            "avatar_color": "#a11c1c",
+            "avatar_image": "shopify://shop_images/73x73_3.png"
+          }
+        },
+        "testimonial_prWHpW": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Fréro j'suis choqué 😭🔥",
+            "quote": "<p>Le maillot est archi quali, j’pensais que ça allait être un délire cheap mais non. Le flocage est comme en boutique officielle. J’vais revenir, c’est sûr !</p>",
+            "author": "Giannis Chavales",
+            "stars": 5,
+            "time_ago": "",
+            "avatar_color": "#158f19",
+            "avatar_image": "shopify://shop_images/73x73_1_71d1bbce-71b9-44af-b1b2-4716a5cf98b7.png"
+          }
+        },
+        "testimonial_xqPXXQ": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Validé par le city",
+            "quote": "<p>J’suis arrivé avec le maillot du Barça version 2024, tout le monde m’a demandé où je l’avais eu. Livraison en 3 jours, rien à dire.</p>",
+            "author": "kostas karasimos",
+            "stars": 5,
+            "time_ago": "",
+            "avatar_color": "#3f51b5",
+            "avatar_image": "shopify://shop_images/73x73_0809eeca-7411-433e-9f4e-fbb5986bd829.png"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_Qp4MEE",
+        "testimonial_L4DwUK",
+        "testimonial_prWHpW",
+        "testimonial_xqPXXQ"
+      ],
+      "name": "Testimonial Carousel",
+      "settings": {
+        "section_title": "⭐ Ils nous font confiance – et ils vous le disent !",
+        "section_subtitle": "basé sur 100+ avis vérifiés",
+        "average_score_text": "Excellent4.7/ 5",
+        "scroll_speed": "medium"
+      }
+    },
+    "about_us_FxWGMN": {
+      "type": "about-us",
+      "settings": {
+        "about-us-title": "Où Acheter Des Maillots De Foot Pas Cher  - Mon Maillot Foot Store",
+        "about-us-description": "<p>Bienvenue sur Mon Maillot Foot Store, votre <strong>site maillot de foot pas cher</strong> créé en 2024 pour répondre à la passion des fans de foot ! Spécialisés dans la vente de <strong>maillots de foot </strong>et de <strong>maillot de foot</strong>, nous nous adressons principalement aux supporters français, mais aussi à tous les amateurs de football à travers le monde.</p><p>Chez Mon Maillot Foot Store, nous proposons une large sélection de <strong>maillots de foot pas cher</strong>, inspirés des plus grands clubs et équipes nationales. Parmi nos produits populaires, vous retrouverez les maillot de foot des clubs emblématiques tels que le <a href=\"/collections/paris-saint-germain\" title=\"Paris Saint-Germain\">Paris Saint-Germain (PSG)</a>, le <a href=\"/collections/real-madrid\" title=\"Real Madrid\">Real Madrid</a>, le <a href=\"/collections/barcelone\" title=\"Barcelone\">FC Barcelone</a> et <a href=\"/collections/manchester-united\" title=\"Manchester United\">Manchester United</a>. Que vous soyez un fan de votre équipe locale ou des géants internationaux, nous avons ce qu'il vous faut à des prix imbattables.</p><p>Nous offrons également la possibilité de créer votre <a href=\"/collections/tous?sort_by=created-descending&filter.p.m.custom._tat_du_num_ro=Aucun+Numéro+Ajouté&filter.v.price.gte=&filter.v.price.lte=\" title=\"/collections/tous?sort_by=created-descending&filter.p.m.custom._tat_du_num_ro=Aucun+Numéro+Ajouté&filter.v.price.gte=&filter.v.price.lte=\"><strong>maillots de foot personnalisé</strong></a>, pour porter fièrement le nom et le numéro de votre joueur préféré ou même votre propre nom. Que ce soit pour un match entre amis, une collection ou simplement pour afficher votre passion, nos <strong>maillots de foot personnalisés </strong>sont parfaits pour vous.</p><p>En plus de nos prix compétitifs, nous vous offrons la livraison gratuite sur toutes vos commandes ! Chez Mon Maillot Foot Store, nous croyons que votre passion pour le foot ne devrait pas être freinée par des frais supplémentaires. Profitez de nos <strong>maillots de foot pas cher</strong> et de notre service de<strong> livraison gratuite</strong> pour célébrer votre amour du jeu sans vous ruiner.</p><p>Notre mission est simple : vous proposer des maillots de foot et des maillot de foot de qualité, personnalisables et livrés rapidement, où que vous soyez. En tant que site maillot de foot pas cher, nous nous engageons à offrir un excellent rapport qualité-prix, tout en garantissant une expérience d'achat agréable et sécurisée.</p><p>Rejoignez-nous dans cette aventure footballistique et découvrez pourquoi Mon Maillot Foot Store est déjà devenu une référence pour les fans de football en France et au-delà.</p><p>Mon Maillot Foot Store – Parce que votre passion mérite d'être célébrée sans se ruiner. ⚽</p>",
+        "pc-about-us-title-font-size": 24,
+        "phone-about-us-title-font-size": 18,
+        "about-us-description-line-height": 20
+      }
+    }
+  },
+  "order": [
+    "pagefly-home",
+    "17394368954583b98e",
+    "testimonial_carousel_y3mRVV",
+    "about_us_FxWGMN"
+  ]
+}

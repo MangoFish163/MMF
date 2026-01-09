@@ -1,0 +1,32 @@
+<style>
+  .custom-heading {
+    font-family: 'Inter', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 0.5em 0;
+    color: #111;
+  }
+</style>
+
+{% schema %}
+    {
+      "name": "Section name",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "heading",
+          "label": "标题内容",
+          "default": "<p>默认标题</p>"
+        }
+      ],
+      "presets": [
+        {
+          "name": "自定义标题区块"
+        }
+      ]
+    }
+  {% endschema %}
+
+<div class="page-width">
+  <h1 class="custom-heading">{{ section.settings.heading }}</h1>
+</div>

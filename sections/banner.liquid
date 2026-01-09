@@ -1,0 +1,48 @@
+{% schema %}
+{
+  "name": "Image with Link",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "image_width",
+      "label": "Image Width",
+      "default": "100%"
+    },
+    {
+      "type": "text",
+      "id": "image_height",
+      "label": "Image Height",
+      "default": "auto"
+    },
+    {
+      "type": "url",
+      "id": "banner_link",
+      "label": "Banner Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image with Link",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+{% if section.settings.banner_image %}
+  <a href="{{ section.settings.banner_link }}" class="banner-link">
+    <img src="{{ section.settings.banner_image | img_url: 'master' }}" alt="Banner Image" style="width: {{ section.settings.image_width }}; height: {{ section.settings.image_height }};">
+  </a>
+{% endif %}
+
+<style>
+.banner-link {
+  display: block;
+  text-align: center;
+}
+</style>

@@ -1,0 +1,347 @@
+{% schema %}
+    {
+      "name": "Testimonial Carousel",
+      "tag": "section",
+      "class": "testimonial-carousel-section",
+      "settings": [
+        {
+          "type": "text",
+          "id": "section_title",
+          "label": "分区标题",
+          "default": "Testimonials #33"
+        },
+        {
+          "type": "text",
+          "id": "section_subtitle",
+          "label": "分区短描述",
+          "default": "In your own words"
+        },
+        {
+          "type": "text",
+          "id": "average_score_text",
+          "label": "平均评分文字（不含星星）",
+          "default": "Very good 4.7/5"
+        },
+        {
+          "type": "select",
+          "id": "scroll_speed",
+          "label": "滚动速度",
+          "options": [
+            { "value": "slow", "label": "慢速" },
+            { "value": "medium", "label": "中速" },
+            { "value": "fast", "label": "快速" }
+          ],
+          "default": "medium"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "testimonial",
+          "name": "评论块",
+          "settings": [
+            {
+              "type": "text",
+              "id": "title",
+              "label": "评论标题",
+              "default": "评论标题"
+            },
+            {
+              "type": "richtext",
+              "id": "quote",
+              "label": "评论内容",
+              "default": "<p>This smoothie mix is a game-changer! So easy, delicious, and packed with nutrients.</p>"
+            },
+            {
+              "type": "text",
+              "id": "author",
+              "label": "客户名字",
+              "default": "Lisa G."
+            },
+            {
+              "type": "range",
+              "id": "stars",
+              "label": "星级（1–5）",
+              "min": 1,
+              "max": 5,
+              "step": 1,
+              "default": 5
+            },
+            {
+              "type": "text",
+              "id": "time_ago",
+              "label": "评论时间",
+              "default": "3 hours ago"
+            },
+            {
+              "type": "color",
+              "id": "avatar_color",
+              "label": "头像背景色",
+              "default": "#3F51B5"
+            },
+            {
+              "type": "image_picker",
+              "id": "avatar_image",
+              "label": "用户头像图片",
+              "info": "如果不上传图片，将显示用户名字的首字母"
+            }
+          ]
+        }
+      ],
+      "presets": [
+        {
+          "name": "Testimonial Carousel",
+          "blocks": [
+            { "type": "testimonial" },
+            { "type": "testimonial" }
+          ]
+        }
+      ]
+    }
+    {% endschema %}
+    
+    <div class="testimonial-carousel scroll-{{ section.settings.scroll_speed }}">
+      <h2 class="testimonial-title">{{ section.settings.section_title }}</h2>
+      <p class="testimonial-subtitle">{{ section.settings.section_subtitle }}</p>
+      <p class="testimonial-score">
+      {{ section.settings.average_score_text }}
+      <span class="svg-stars">
+        {% for i in (1..5) %}
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" 
+           xmlns="http://www.w3.org/2000/svg" style="margin-left: 3px;">
+        <rect width="32" height="32" fill="#00b67a"/>
+        <path d="M9.20283 27L16.001 21.807L22.7972 27L20.2018 18.596L27 13.403H18.5984L16.001 5L13.4037 13.403H5L11.7982 18.596L9.20283 27Z"
+              fill="white" stroke="none"/>
+      </svg>
+    {% endfor %}
+      </span>
+    </p>
+    
+      <div class="testimonial-marquee">
+        <div class="testimonial-track">
+    {% assign loop_times = 3 %}
+    {% for i in (1..loop_times) %}
+      {% for block in section.blocks %}
+        <div class="testimonial-card">
+          <div class="testimonial-title-block" style="font-family: Montserrat, sans-serif; font-size: 24px; font-weight: bold; margin-bottom: 10px;">
+            {{ block.settings.title }}
+          </div>
+          <div class="testimonial-text">
+            {{ block.settings.quote }}
+          </div>
+          <div class="testimonial-meta">
+            <div class="user-row">
+              <div class="user-info">
+                {% assign colors = "#FFB300,#F44336,#8BC34A,#00BCD4,#E91E63,#3F51B5,#FF9800,#009688,#9C27B0,#CDDC39" | split: "," %}
+                {% assign initial = block.settings.author | slice: 0, 1 | upcase %}
+                {% if block.settings.avatar_image %}
+                  <div class="user-avatar">
+                    <img src="{{ block.settings.avatar_image | img_url: '80x80', crop: 'center' }}" 
+                         alt="{{ block.settings.author }}" 
+                         width="40" 
+                         height="40">
+                  </div>
+                {% else %}
+                  <div class="user-avatar" style="background: {{ block.settings.avatar_color }};">
+                    {{ initial }}
+                  </div>
+                {% endif %}
+                <div class="user-details">
+                  <p class="author-name">{{ block.settings.author }}</p>
+                  <p class="author-time">{{ block.settings.time_ago }}</p>
+                </div>
+              </div>
+              <div class="stars">
+                {% for i in (1..block.settings.stars) %}
+                  <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 4px;">
+                    <rect width="32" height="32" fill="#00b67a"/>
+                    <path d="M9.20283 27L16.001 21.807L22.7972 27L20.2018 18.596L27 13.403H18.5984L16.001 5L13.4037 13.403H5L11.7982 18.596L9.20283 27Z" fill="white"/>
+                  </svg>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% endfor %}
+    
+        </div>
+      </div>
+    </div>
+    
+    <style>
+    .testimonial-carousel {
+      text-align: center;
+      background: linear-gradient(to top, #fff, #dfffdc);
+      padding: 40px 20px;
+      overflow: hidden;
+    }
+    
+    .testimonial-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+       @media (max-width: 768px) {
+         .testimonial-title {
+      font-size: 18px;
+    }
+       }
+    
+    .testimonial-subtitle {
+      font-size: 1.8rem;
+      margin-top: 10px;
+    }
+    
+    .testimonial-score {
+      margin-top: 8px;
+      color: #444;
+    }
+    
+    .testimonial-marquee {
+      overflow: hidden;
+      margin-top: 30px;
+    }
+    
+    .testimonial-track {
+      display: flex;
+      width: max-content;
+      gap: 20px;
+      animation-name: scrollLeft;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+    
+    .scroll-slow .testimonial-track { animation-duration: 60s; }
+    .scroll-medium .testimonial-track { animation-duration: 40s; }
+    .scroll-fast .testimonial-track { animation-duration: 20s; }
+    
+    .testimonial-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      width: 320px;
+      min-width: 320px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .testimonial-text {
+      font-size: 1.4rem;
+      color: #333;
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    
+    .testimonial-text p{
+      text-align: left;
+      margin: 0;
+    }
+    
+    /* .testimonial-text p::before {
+      content: "“";
+      margin-right: 4px;
+    }
+    
+    .testimonial-text p::after {
+      content: "”";
+      margin-left: 2px;
+    }
+     */
+    .testimonial-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 1.5rem;
+      color: #666;
+    }
+    
+    .verified {
+      display: flex;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    .user-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .user-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    
+    .user-details {
+      text-align: left;
+      line-height: 1.2; /* 更紧凑的行高 */
+      font-size: 1.2rem;
+    }
+    
+    .author-name {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin:3px;
+    }
+    
+    .author-time {
+      font-size: 0.85rem;
+      color: #666;
+      margin:3px;
+    }
+    
+    .stars {
+      color: #27c383;
+      display: flex;
+      align-items: center;
+    }
+    
+    .stars svg {
+      vertical-align: middle;
+      width: 20px;
+      height: 20px;
+    }
+    
+    .svg-stars svg{
+      vertical-align: middle;
+      width: 20px;
+      height: 20px;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    
+    @keyframes scrollLeft {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    </style>
+    

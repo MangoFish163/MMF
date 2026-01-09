@@ -1,0 +1,300 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  @media screen and (max-width: 768px) {
+    .collection-hero__inner {
+      {% if collection.metafields.custom.collection_banner_pc != blank %}
+        max-width: 100%;
+      {% else %}
+        margin: 2rem;
+      {% endif %}
+    }
+    .collection-hero--with-image .collection-hero__inner {
+      padding-bottom: calc({{settings.media_shadow_vertical_offset | at_least: 0}}px + 2rem);
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    .collection-hero__inner {
+      {% if collection.metafields.custom.collection_banner_pc != blank %}
+        max-width: 100%;
+      {% else %}
+        margin: 3rem auto;
+      {% endif %}
+    }
+  }
+{%- endstyle -%}
+
+<div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
+  <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+    <div class="collection-hero__text-wrapper">
+      <h1 class="collection-hero__title">
+        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+        {{- collection.title | escape -}}
+      </h1>
+
+      {%- if section.settings.show_collection_description -%}
+        <div class="collection-hero__description rte">
+          {% assign banner_image = collection.metafields.custom.collection_banner_pc %}
+          {% if banner_image != blank %}
+            <div class="collapsible-container">
+              <div class="banner-container">
+                <div class="banner-image-container">
+                  <img
+                    src="{{ banner_image | img_url: 'master' }}"
+                    alt="{{ collection.title }}"
+                    class="banner-image"
+                    width="1200"
+                    height="800"
+                    loading="lazy"
+                  >
+                </div>
+                <div class="text-container">
+                  <div class="rich-text-content{% if collection.description == blank %} no-desc{% endif %}">
+                    {{ collection.description }}
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="desc-toggle-btn" onclick="toggleDescription(this)">Afficher plus</button>
+            </div>
+          {% else %}
+            <div class="collapsible-container">
+              <div class="rich-text-content">{{ collection.description }}</div>
+              <button type="button" class="desc-toggle-btn" onclick="toggleDescription(this)">Afficher plus</button>
+            </div>
+          {% endif %}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_collection_image and collection.image -%}
+      <div class="collection-hero__image-container media gradient">
+        <img
+          srcset="
+            {%- if collection.image.width >= 165 -%}{{ collection.image | image_url: width: 165 }} 165w,{%- endif -%}
+            {%- if collection.image.width >= 360 -%}{{ collection.image | image_url: width: 360 }} 360w,{%- endif -%}
+            {%- if collection.image.width >= 535 -%}{{ collection.image | image_url: width: 535 }} 535w,{%- endif -%}
+            {%- if collection.image.width >= 750 -%}{{ collection.image | image_url: width: 750 }} 750w,{%- endif -%}
+            {%- if collection.image.width >= 1070 -%}{{ collection.image | image_url: width: 1070 }} 1070w,{%- endif -%}
+            {%- if collection.image.width >= 1500 -%}{{ collection.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+            {{ collection.image | image_url }} {{ collection.image.width }}w
+          "
+          src="{{ collection.image | image_url: width: 750 }}"
+          sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
+          alt="{{ collection.image.alt | escape }}"
+          width="{{ collection.image.width }}"
+          height="{{ collection.image.height }}"
+        >
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  .collection-hero__description .rich-text-content h1 {
+    margin: 0;
+  }
+  .collapsible-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .banner-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .banner-image-container {
+    width: 100%;
+  }
+
+  .banner-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .text-container {
+    position: relative;
+    width: 100%;
+  }
+
+  /* PC 端样式 */
+  @media screen and (min-width: 769px) {
+    .banner-container .text-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .banner-container .rich-text-content {
+      width: 60%;
+      margin: 0 auto;
+      background-color: rgba(255, 255, 255, 0.65);
+      padding: 30px;
+      border-radius: 4px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      color: #000000;
+      text-align: left;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .desc-toggle-btn {
+      display: none !important;
+    }
+  }
+
+  /* 移动端样式 */
+  @media screen and (max-width: 768px) {
+    .banner-container {
+      transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      max-height: 260px;
+      overflow: hidden;
+    }
+
+    .banner-container.expanded {
+      max-height: 2000px;
+    }
+
+    .rich-text-content {
+      position: relative;
+      overflow: hidden;
+      max-height: 280px;
+      transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      color: #000000;
+      text-align: left;
+    }
+
+    .rich-text-content.expanded {
+      max-height: 2000px;
+    }
+
+    .rich-text-content:not(.expanded):not(.no-desc)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+      pointer-events: none;
+    }
+
+    .banner-container .rich-text-content {
+      background: #ffffff;
+      padding: 0 15px;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .rich-text-content.no-desc {
+    display: none;
+  }
+
+  .desc-toggle-btn {
+    display: block;
+    margin: 10px 0;
+    background: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 8px 15px;
+    text-align: center;
+    color: #333;
+    width: auto;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    position: relative;
+    border-radius: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .desc-toggle-btn:hover {
+    background-color: #f0f0f0;
+  }
+
+  .desc-toggle-btn:active {
+    opacity: 0.7;
+    transform: translateY(1px);
+  }
+
+  .no-toggle + .desc-toggle-btn {
+    display: none;
+  }
+</style>
+
+<script>
+  function toggleDescription(btn) {
+    const container = btn.closest('.collapsible-container');
+    const banner = container.querySelector('.banner-container');
+    const content = container.querySelector('.rich-text-content');
+
+    if (content.classList.contains('expanded')) {
+      content.classList.remove('expanded');
+      if (banner) banner.classList.remove('expanded');
+      btn.textContent = 'Afficher plus';
+    } else {
+      content.classList.add('expanded');
+      if (banner) banner.classList.add('expanded');
+      btn.textContent = 'Afficher moins';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const contents = document.querySelectorAll('.rich-text-content');
+
+    contents.forEach(function (content) {
+      const container = content.closest('.collapsible-container');
+      if (!container) return;
+
+      const btn = container.querySelector('.desc-toggle-btn');
+      if (!btn) return;
+
+      if (content.scrollHeight <= 260 || content.classList.contains('no-desc')) {
+        content.classList.add('no-toggle');
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-collection-banner.name",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.main-collection-banner.settings.paragraph.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "default": true,
+      "label": "t:sections.main-collection-banner.settings.show_collection_description.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "default": false,
+      "label": "t:sections.main-collection-banner.settings.show_collection_image.label",
+      "info": "t:sections.main-collection-banner.settings.show_collection_image.info"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}
